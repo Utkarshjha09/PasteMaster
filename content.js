@@ -15,4 +15,6 @@ DFWP.browser.runtime.onMessage.addListener(({ active }) => {
   }
 });
 
-DFWP.browser.runtime.sendMessage({ didLoad: true });
+DFWP.browser.runtime.sendMessage({ didLoad: true }, () => {
+  void DFWP.browser.runtime.lastError;
+});

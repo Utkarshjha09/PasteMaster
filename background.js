@@ -5,6 +5,10 @@
   const action = browser.action || browser.browserAction;
   let rules = new DFWP.Rules();
 
+  const ignoreRuntimeMessageError = () => {
+    void browser.runtime.lastError;
+  };
+
   const checkIfActive = (tabId) => {
     browser.tabs.get(tabId, tab => {
       const match = tab && tab.url && rules.some((r) => r.test(tab.url));
@@ -12,11 +16,11 @@
       if (match) {
         action.setIcon({ path: 'clipboard-active-32.png' });
         action.setTitle({ title: "PasteMaster (active)" });
-        browser.tabs.sendMessage(tab.id, { active: true });
+        browser.tabs.sendMessage(tab.id, { active: true }, ignoreRuntimeMessageError);
       } else {
         action.setIcon({ path: 'clipboard-inactive-32.png' });
         action.setTitle({ title: "PasteMaster (inactive)" });
-        browser.tabs.sendMessage(tab.id, { active: false });
+        browser.tabs.sendMessage(tab.id, { active: false }, ignoreRuntimeMessageError);
       }
     });
   };
@@ -46,8 +50,8 @@
     }
   });
 
-  browser.runtime.onMessage.addListener(({ didLoad }) => {
-    if (didLoad) {
+  browser.runtime.onMessage.addListener((message = {}) => {
+    if (message.didLoad) {
       browser.tabs.query({active: true, windowId: browser.windows.WINDOW_ID_CURRENT}, ([tab]) => {
         checkIfActive(tab.id);
       });
