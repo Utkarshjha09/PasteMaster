@@ -6,7 +6,8 @@
       container.removeChild(container.firstChild);
     }
 
-    DFWP.storage.get({ rules: [] }, ({ rules: values }) => {
+    DFWP.storage.get({ rules: [] }, (result = {}) => {
+      const values = result.rules || [];
       rules = DFWP.Rules.deserialize(values);
       rules.forEach((rule) => new DFWP.RuleView(rule, rules).render(container));
     });

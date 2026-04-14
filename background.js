@@ -22,7 +22,8 @@
   };
 
   const fetchRules = (cb) => {
-    DFWP.storage.get({ rules: [] }, ({ rules: values }) => {
+    DFWP.storage.get({ rules: [] }, (result = {}) => {
+      const values = result.rules || [];
       rules = DFWP.Rules.deserialize(values);
       if (cb) { cb(); }
     });
@@ -30,7 +31,8 @@
 
   browser.runtime.onInstalled.addListener(({ previousVersion, reason }) => {
     if (reason === 'update' && previousVersion == '1.1') {
-      DFWP.storage.get({ include: '' }, ({ include }) => {
+      DFWP.storage.get({ include: '' }, (result = {}) => {
+        const include = result.include || '';
         fetchRules(() => {
           include.split('\n').forEach(value => {
             if (value !== '.*') {

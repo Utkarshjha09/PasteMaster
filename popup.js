@@ -21,7 +21,8 @@
       DFWP.browser.runtime.openOptionsPage();
     });
 
-    DFWP.storage.get({ rules: [] }, ({ rules: values }) => {
+    DFWP.storage.get({ rules: [] }, (result = {}) => {
+      const values = result.rules || [];
       rules = DFWP.Rules.deserialize(values);
 
       DFWP.browser.tabs.query({active: true, windowId: DFWP.browser.windows.WINDOW_ID_CURRENT}, ([tab]) => {
