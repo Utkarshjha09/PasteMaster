@@ -17,7 +17,7 @@
     }
   ],
   "description": "Prevents the blocking of copying from & pasting into input fields",
-  "homepage_url": "https://github.com/aaronraimist/DontFuckWithPaste",
+  "homepage_url": "https://github.com/Utkarshjha09/PasteMaster",
   "icons": {
     "48": "clipboard-inactive-48.png",
     "128": "clipboard-inactive-128.png"
